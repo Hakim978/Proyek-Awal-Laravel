@@ -15,11 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $adminPassword = config('inventory.admin_password');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (blank($adminPassword)) {
+            return;
+        }
+
+        User::updateOrCreate(
+            ['email' => 'admin@gmail.com'],
+            ['name' => 'Administrator', 'password' => $adminPassword],
+        );
     }
 }
